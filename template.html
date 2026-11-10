@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            text-align: center;
+            padding: 40px;
+            border: 10px solid #1a365d;
+            margin: 20px;
+        }
+        h1 { color: #1a365d; margin-bottom: 5px; }
+        h2 { color: #4a5568; margin-top: 0; }
+        .content { margin-top: 40px; font-size: 20px; line-height: 1.6; }
+        .highlight { font-weight: bold; color: #2b6cb0; }
+        .footer { margin-top: 60px; font-size: 14px; color: #718096; }
+    </style>
+</head>
+<body>
+    <h1>Al-Neelain University</h1>
+    <h2>Faculty of Graduate Studies</h2>
+    <hr style="width: 80%; border: 0.5px solid #cbd5e0; margin: 20px auto;">
+    
+    <div class="content">
+        This is to certify that<br>
+        <span class="highlight" style="font-size: 26px;">{{ student_name }}</span><br>
+        has successfully met all academic requirements and is awarded the degree with a Cumulative GPA of<br>
+        <span class="highlight">{{ gpa }}</span> (<span class="highlight">{{ degree_classification }}</span>).
+    </div>
+
+    <div class="footer">
+        Issued locally via Privacy-Preserving Agentic AI System
+    </div>
+</body>
+</html>
