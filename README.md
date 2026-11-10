@@ -1,6 +1,6 @@
 # COSC726 - Agentic Certificate Issuance System
 
-Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation - Al-Neelain University - COSC726
+Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation
 
 ## 🎯 Project Idea
 
