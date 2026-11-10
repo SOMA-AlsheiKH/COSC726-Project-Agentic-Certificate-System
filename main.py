@@ -22,8 +22,8 @@ from crewai import Agent, Task, Crew
 # ============================================================
 # 1. CONFIG
 # ============================================================
-EMAIL_USER = "your_project_email@gmail.com"
-EMAIL_PASS = "your_app_password"
+EMAIL_USER = "project_email@gmail.com"
+EMAIL_PASS = "app_password"
 TRUSTED_SENDER = "results@university.edu"
 
 PARSED_FILE = "data/parsed.json"
