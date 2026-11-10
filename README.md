@@ -1,4 +1,4 @@
-# COSC726 - Agentic Certificate Issuance System
+# COSC726 -Project Agentic Certificate Issuance System
 
 Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation
 
