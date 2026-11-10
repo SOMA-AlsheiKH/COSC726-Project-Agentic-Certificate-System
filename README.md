@@ -10,7 +10,16 @@ Flow: Internet -> Email -> Gate 1 Digital -> Gate 2 Hash -> JSON -> Self-Correct
 All reasoning is done locally with Ollama `qwen2.5:7b`. No student data is sent to external cloud APIs. Agents are forbidden from inventing any student names - all data comes only from tools reading the real PDF.
 
 ## Agents (5) and Tasks (7)
+## Agents (5) and Tasks (7) - In Correct Order
 
+1.  **Task 1 - Network Agent:** Checks internet connection only.
+2.  **Task 2 - Watcher Agent:** Watches `data/` and fetches email only from `results@university.edu`.
+3.  **Task 3 - Parser Agent (Gate 1):** Checks if PDF is digital (not scanned image).
+4.  **Task 4 - Verifier Agent (Gate 2):** Checks SHA-256 Hash FIRST. If hash mismatches or no hash file, STOPS and blocks everything. No JSON conversion happens before this.
+5.  **Task 5 - Parser Agent:** ONLY if Hash matches, converts the real PDF to `data/parsed.json`.
+6.  **Task 6 - Verifier Agent:** Self-Correction - fixes degree classification from GPA.
+7.  **Task 7 - Render Agent:** Final security layer - checks duplicates, empty fields, and Hash again. Renders certificates from `template.html` to `output/`.
+//
 1.  **Network Agent (Task 1):** Checks internet connection only via tool. Does not download any file by itself.
 2.  **Watcher Agent (Task 2):** Watches `data/` folder and fetches email only from trusted sender `results@university.edu`. Downloads PDF + Hash to `data/`.
 3.  **Parser Agent (Task 3 + Task 5):** Gate 1 - Checks if PDF is digital (not scanned image). Then parses the real PDF to `data/parsed.json`.
