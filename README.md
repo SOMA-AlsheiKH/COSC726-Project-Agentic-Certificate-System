@@ -56,8 +56,8 @@ All reasoning is done locally with Ollama `qwen2.5:7b`. No student data is sent 
 ---
 
 ## 📁 Project Files
-- `main.py` -> Contains the 5 Agents and 7 Tasks
-- `config.py` -> Contains the Tools and Functions (The Gates)
+- `main.py` -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
+- `config.py` -> Contains ONLY the connection / linking to Ollama `qwen2.5:7b` (Local LLM setup)
 - `create_data.py` -> Creates a sample PDF + hash file
 - `template.html` -> Certificate template
 - `data/` -> PDF and hash files are placed here
