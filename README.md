@@ -61,7 +61,7 @@ EMAIL_PASS=your_app_password
 
 If you leave `LLM_PROVIDER=ollama`, no API key is needed.
 
-## ▶️ 5. Run
+## ▶️ 5.How To Run
 One command only to start the system:
 
 ```bash
