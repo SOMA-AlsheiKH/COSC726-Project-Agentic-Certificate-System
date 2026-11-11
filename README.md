@@ -59,50 +59,39 @@ EMAIL_PASS=your_app_password
 
 ```
 
-If you leave `LLM_PROVIDER=ollama`, no API key is needed.
+## 5. Run
 
-## ▶️ 5.Run
 One command only to start the system:
+
 
 ```bash
 python main.py
 ```
 
 **What you should see on success:**
+
 ```
-## 5. التشغيل
+What you will see on success:
 
-أمر واحد فقط لتشغيل النظام:
-
-python main.py
-
-ما الذي ستراه عند النجاح:
-
+=== 5 Agents شغالين ===
 Crew: crew
-├── Task: Network Checker
-│   └── Used Check Internet
-├── Task: Email Watcher
-│   └── Used Fetch and Watch Email
-├── Task: Gatekeeper Parser
-│   └── Used Check Digital Gate 1
-├── Task: Gatekeeper Parser
-│   └── Used Check Hash Gate 2
-├── Task: Verifier and Corrector
-│   └── Used Parse Result Sheet to JSON
-├── Task: Verifier and Corrector
-│   └── Used Verify Self Correction
-└── Task: Certificate Renderer
-    └── Used Render Certified Output
+├── Task: Network Checker - Used Check Internet
+├── Task: Email Watcher - Used Fetch and Watch Email
+├── Task: Gatekeeper Parser - Used Check Digital Gate 1
+├── Task: Gatekeeper Parser - Used Check Hash Gate 2
+├── Task: Verifier and Corrector - Used Parse Result Sheet to JSON
+├── Task: Verifier and Corrector - Used Verify Self Correction
+└── Task: Certificate Renderer - Used Render Certified Output
 
-DONE - Cost: $0.00
-[1/5] Network Checker: Internet OK
-[2/5] Email Watcher: Found results.pdf in data/input/
-[3/5] Gatekeeper: PDF is text-based, SHA-256 MATCHED
-[4/5] Verifier: students parsed, classifications corrected
-[5/5] Renderer:  certificates generated in output/certificates/
-DONE - Cost: $0.00
+Then the Skip window appears to show the error report.
+Then at the end you will see:
+=== تم - وقف في output ===
+
 ```
-If you see `SHA-256 MISMATCH - STOPPED`, the system correctly blocked issuance. Do not continue.
+**Important note:
+If the hash of one file does not match, the system skips that file only and continues with the other files.
+The system stops completely only if no file passes the gate.**
+
 
 ## 6. Test
 One command to run the full test suite:
@@ -256,7 +245,7 @@ No certificate is generated for a rejected file unless staff fixes it and resubm
 
 **In short:** The machine detects the error, the human makes the decision.
 
-## 📁 10.Repository Map
+## 10.Repository Map
  
 - `main.py` -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
 - `config.py` -> Contains ONLY the connection / linking to Ollama qwen2.5:7b (Local LLM setup)
