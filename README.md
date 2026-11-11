@@ -7,7 +7,7 @@ Privacy-Preserving Local Agentic AI System for University Degree Certificate Gen
 An intelligent system that uses 5 Agents to issue university certificates securely and without forgery.
 
 The system works in order:
-**Internet Check -> [Yes: Try Email -> Download to data/ OR Email Failed -> Go to data/ | No: Go to data/ Directly] -> Gates -> Conversion -> Correction -> Rendering**
+**Internet Check** -> [Yes: Try Email -> Download to data/ OR Email Failed -> Go to data/ | No: Go to data/ Directly] -> Gates -> Conversion -> Correction -> Rendering**
 
 ---
 All reasoning is done locally with Ollama `qwen2.5:7b`. No student data is sent to external cloud APIs. Agents are forbidden from inventing any student names - all data comes only from tools reading the real PDF.
