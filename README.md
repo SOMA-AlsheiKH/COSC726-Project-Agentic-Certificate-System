@@ -44,13 +44,6 @@ LLM_PROVIDER=ollama
 LLM_MODEL=qwen2.5:7b
 ```
 
-To switch to cloud (not recommended, requires key):
-```env
-LLM_PROVIDER=openai
-LLM_MODEL=gpt-4o-mini
-OPENAI_API_KEY=your_key_here
-```
-
 Other variables in `.env`:
 ```env
 TRUSTED_SENDER=results@neelain.edu.sd
