@@ -199,23 +199,24 @@ All rejected files are collected in `issues_report.pdf` with:
 No certificate is generated for a rejected file unless staff fixes it and resubmits it through the gate again.
 
 **In short:** The machine detects the error, the human makes the decision.
+
 ## 10. Repository Map
-- `main.py` - Main entry point, runs the 5 agents in order and contains the approval gate.
-- `config.py` - Loads `.env`, selects LLM provider, and defines paths.
-- `agents/` - Definitions of the 5 CrewAI agents and their tools.
-- `data/input/` - Place input `results.pdf` + `.sha256` file here.
-- `data/verified.json` - Human-reviewed intermediate output before rendering.
-- `output/certificates/` - Final generated PDF certificates go here.
-- `templates/template.html` - Jinja2 HTML template for the certificate design.
-- `tests/` - Pytest suite with 8 tests and fixtures.
-- `evaluate.py` - Runs the evaluation suite and prints the numbers in Section 8.
-- `.env.example` - Template for configuration, copy to `.env`.
+
+- `main.py` - Main entry point, runs the 5 agents and 7 tasks, contains the security gate and certificate generation.
+- `config.py` - Configures the local model `qwen2.5:7b` via `Ollama`.
+- `create_data.py` - Creates test data, 12 cases.
+- `test_system.py` - Automated test suite with 9 tests.
+- `evaluation.py` - Calculates `Accuracy, Precision, Recall, Hallucination` metrics.
+- `data/` - Input folder for result sheet `PDF` files.
+- `output/` - Final certificates and `issues_report.pdf` are saved here.
+- `template.html` - Certificate template.
 - `requirements.txt` - Python dependencies.
 
 ## 11. Limitations
-- **No OCR:** Scanned / image-only PDFs are blocked by Gate 1 and cannot be processed.
-- **Single layout:** Parser expects `ID, Name, GPA` in one line. Different Results Office formats will fail.
-- **Arabic names:** Arabic names with extra spaces may be split incorrectly. English names work best.
+
+- **No OCR:** Scanned PDFs are blocked by Gate 1 and cannot be processed.
+- **Single layout:** Parser expects `ID, Name, GPA` in one line.
+- **Classification correction:** Degree classification is corrected from GPA only, not from any other source.
 - **No digital signature:** Certificates are PDFs without cryptographic signature.
-- **Local model only:** Qwen 2.5 7B is slower and less accurate than large cloud models. Out-of-memory will occur on machines with less than 8 GB RAM.
-- **Email dependency:** If IMAP is blocked and no file is in `data/input/`, the system stops with no output.
+- **Local model only:** `Qwen 2.5 7B` is slower and less accurate than large cloud models. It requires at least 8 GB of RAM.
+- **Local storage only:** The system generates certificates and saves them in the `output/` folder only. It does not send them by email.
