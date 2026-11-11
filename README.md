@@ -67,9 +67,8 @@ python main.py
 [1/5] Network Checker: Internet OK
 [2/5] Email Watcher: Found results.pdf in data/input/
 [3/5] Gatekeeper: PDF is text-based, SHA-256 MATCHED
-[4/5] Verifier: 10 students parsed, classifications corrected
->>> WAITING FOR HUMAN APPROVAL - check data/verified.json
-[5/5] Renderer: 10 certificates generated in output/certificates/
+[4/5] Verifier: students parsed, classifications corrected
+[5/5] Renderer:  certificates generated in output/certificates/
 DONE - Cost: $0.00
 ```
 If you see `SHA-256 MISMATCH - STOPPED`, the system correctly blocked issuance. Do not continue.
