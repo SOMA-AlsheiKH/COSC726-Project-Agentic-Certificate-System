@@ -20,7 +20,7 @@ from config import local_llm
 from crewai import Agent, Task, Crew
 
 # ============================================================
-# 1. CONFIG
+# 1. EMAIL
 # ============================================================
 EMAIL_USER = "project_email@gmail.com"
 EMAIL_PASS = "app_password"
