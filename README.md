@@ -50,15 +50,6 @@ OPENAI_API_KEY = "ollama"
 ```
 **A dummy key is set because the `CrewAI` framework requires the `OPENAI_API_KEY` environment variable to initialize, even when using a fully local model.**
 
-Other variables in `.env`:
-```env
-TRUSTED_SENDER=results@university.edu
-IMAP_SERVER=imap.gmail.com
-EMAIL_USER=project_email@gmail.com
-EMAIL_PASS=your_app_password
-
-```
-
 ## 5. Run
 
 One command only to start the system:
@@ -119,8 +110,6 @@ test_system.py::test_gate_blocks_before_crew PASSED                             
 ================================================== 9 passed in 0.05s ==================================================
 ```
 
-The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using the local Ollama model and local test files in `tests/fixtures/`.
-
 ## 7. A Worked Example
 
 **Step 1 - Generate the inputs:**
@@ -150,12 +139,12 @@ python main.py
 2. `data/verified.json` - Data after correcting the class from the GPA, for example:
 ```json
 [
-  {"id": "2021001", "name": "Ahmed Ali", "gpa": 3.72, "class": "First Class"}
+{"student_id": "2021001", "student_name": "Ahmed Ali", "gpa": 3.72, "degree_classification": "First Class"}
 ]
 ```
-3. `data/issued.json` - Record of certificates actually issued, 5 certificates only
+3. `cert_agent_system/issued.json` - Record of certificates actually issued, 5 certificates only
 4. `output/issues_report.pdf` - Report of rejected files, with 7 blocked cases
-5. `output/certificates/` - 5 certificates only, for the valid students from `test_04`
+5. `output` - 5 certificates only, for the valid students from `test_04`
 
 **How to judge the run:**
 
@@ -205,12 +194,10 @@ Hallucination: 0%
 
 ```
 
-If any line shows `FAIL`, your environment is not matching the report.
-
 ## 9. The Approval Gate
 **The Security Gate with Human Gate**
 
-**Location:** In `main.py`, inside `run_pipeline()`, after reading the files and before certificate generation. The Renderer **cannot** run without passing both the Security Gate and the Human Gate.
+**Location:** In `main.py`, in the tools `check_digital_tool` and `check_hash_tool`, in the helper `is_gate_passed()`, and in the tool `render_cert_tool`. The Renderer **cannot** run without passing both the Security Gate and the Human Gate.
 
 The system uses two gates:
 
@@ -249,7 +236,7 @@ No certificate is generated for a rejected file unless staff fixes it and resubm
  
 - `main.py` -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
 - `config.py` -> Contains ONLY the connection / linking to Ollama qwen2.5:7b (Local LLM setup)
-- `create_data.py` -> Creates a sample PDF + hash file.
+- `create_data.py` -> Creates 4 PDF + hash file.
 - `test_system.py` - Automated test suite with 9 tests.
 - `evaluation.py` - Calculates `Accuracy, Precision, Recall, Hallucination` metrics.
 - `data/` - Input folder for result sheet `PDF` files.
