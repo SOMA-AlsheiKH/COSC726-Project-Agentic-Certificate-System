@@ -1,70 +1,183 @@
-# COSC726 -Project Agentic Certificate Issuance System
+# Automated Academic Degree Generation Using a Local Agentic AI System
 
-Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation
+## 1. What it does
+Manual issuance of university certificates is slow, error-prone, and has no verifiable proof that the printed certificate matches the results file sent by the Results Office. This project automates the full pipeline locally at Al-Neelain University using a multi-agent system built with CrewAI and Qwen 2.5 via Ollama. The agent checks internet, watches email / local folder, parses the results PDF, verifies the SHA-256 hash, corrects degree classification deterministically, waits for human approval, then renders final PDF certificates. No student data leaves the university machine.
 
-## 🎯 Project Idea
+## 2. Prerequisites
+- **Python:** 3.10 or higher (tested on 3.10, 3.11, 3.12)
+- **OS:** Windows 10/11, macOS, or Linux
+- **Model Runtime:** Ollama locally. No cloud API key is required for the default mode.
+- **Model:** `qwen2.5:7b` - download size ~4.7 GB, download time 5-15 minutes depending on internet speed. Disk space required: 6 GB free.
+- **Git:** installed
 
-An intelligent system that uses 5 Agents to issue university certificates securely and without forgery.
+## 3. Install
+Copy and paste these commands in order in a new clean folder:
 
-## The system works in order:
-**Internet Check -> [Yes: Try Email -> Download to data/ OR Email Failed -> Go to data/ | No: Go to data/ Directly] -> Gates -> Conversion -> Correction -> Rendering**
-
----
-All reasoning is done locally with Ollama `qwen2.5:7b`. No student data is sent to external cloud APIs. Agents are forbidden from inventing any student names - all data comes only from tools reading the real PDF.
-
-
-### 1. Network Agent - Task 1
-**Role:** Checks internet connection only.
-- **Task 1:** Check internet connection using `check_internet_tool` ONLY.
-- If internet is OK, write exactly: `Internet OK - Watcher go check email`.
-- If no internet, write exactly: `No Internet - Watcher continue locally from data/`.
-- It does NOT stop the system if there is no internet, it sends the Watcher to local mode.
-
-### 2. Watcher Agent - Task 2
-**Role:** Tries email first, falls back to local `data/` folder if email fails.
-- **Task 2:** Read message from Task 1 first.
-- If it says `Internet OK`, use `fetch_and_watch_tool` to try to fetch from `results@university.edu`.
-- If email fetch fails, or cannot reach email, or cannot open email, or any email error, do NOT stop, do NOT return error, immediately fallback and use same tool to work locally from `data/` folder.
-- If it says `No Internet`, use same tool to work locally from `data/` folder directly.
-- It does not accept email from any other sender.
-- It does NOT invent emails. Always finishes with local data if email fails.
-
-### 3. Parser Agent (Gatekeeper) - Task 3 + Task 4
-**Role:** The security gatekeeper, works twice in a row.
-- **Task 3 - Gate 1:** Checks if the PDF is a real digital PDF, or a scanned image. If it is an image, it rejects it.
-- **Task 4 - Gate 2:** Checks the SHA-256 Hash **FIRST**. If the hash mismatches or no hash file exists, it STOPS everything and blocks issuance. **No JSON conversion happens before this step.**
-
-### 4. Verifier Agent - Task 5 + Task 6
-**Role:** Works only after the gate passes, works twice in a row.
-- **Task 5:** **ONLY** if the hash matches, it converts the real PDF to `data/parsed.json`.
-- **Task 6 - Self-Correction:** Fixes the Degree Classification from the GPA. For example, if GPA is 3.8 and the classification is wrong, it corrects it to First Class.
-
-### 5. Render Agent - Task 7
-**Role:** Final security layer and rendering.
-- **Task 7:** Checks the hash again, blocks duplicate University IDs, blocks empty fields, then renders the certificate from `template.html` to `output/`.
-
----
-
-## 🔒 Why This Order Matters
-
-1. **Security First:** No JSON conversion before the hash matches.
-2. **Each Agent With Its Tasks:** Parser does the Gates (3+4), and Verifier does the Processing (5+6). No going back.
-3. **Anti-Forgery:** Any change in the PDF makes the hash fail, so no certificate is issued.
-4. **No Hallucination:** Agents are forbidden from writing names from memory. They must use Tools only.
-5. **Resilient Fallback:** If internet is OK but email cannot be reached, the system does NOT fail, it automatically continues offline from `data/` folder.
-
----
-
-## 📁 Project Files
-- `main.py` -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
-- `config.py` -> Contains ONLY the connection / linking to Ollama `qwen2.5:7b` (Local LLM setup)
-- `create_data.py` -> Creates a sample PDF + hash file
-- `template.html` -> Certificate template
-- `data/` -> PDF and hash files are placed here
-- `output/` -> Final certificates are generated here
-
-## ▶️ How to Run
 ```bash
+git clone https://github.com/YOUR-USERNAME/degree-generation-agent.git
+cd degree-generation-agent
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# macOS / Linux:
+# source venv/bin/activate
 pip install -r requirements.txt
-python create_data.py
+ollama pull qwen2.5:7b
+ollama serve
+```
+
+Keep `ollama serve` running in a separate terminal.
+
+## 4. Configure
+Copy the example env file:
+
+```bash
+cp .env.example .env
+# Windows PowerShell:
+# Copy-Item .env.example .env
+```
+
+Open `.env` and check these two variables. They are the ONLY two variables that switch the model provider:
+
+```env
+LLM_PROVIDER=ollama
+LLM_MODEL=qwen2.5:7b
+```
+
+To switch to cloud (not recommended, requires key):
+```env
+LLM_PROVIDER=openai
+LLM_MODEL=gpt-4o-mini
+OPENAI_API_KEY=your_key_here
+```
+
+Other variables in `.env`:
+```env
+TRUSTED_SENDER=results@neelain.edu.sd
+IMAP_SERVER=imap.gmail.com
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
+```
+
+If you leave `LLM_PROVIDER=ollama`, no API key is needed.
+
+## 5. Run
+One command only to start the system:
+
+```bash
 python main.py
+```
+
+**What you should see on success:**
+```
+[1/5] Network Checker: Internet OK
+[2/5] Email Watcher: Found results.pdf in data/input/
+[3/5] Gatekeeper: PDF is text-based, SHA-256 MATCHED
+[4/5] Verifier: 10 students parsed, classifications corrected
+>>> WAITING FOR HUMAN APPROVAL - check data/verified.json
+[5/5] Renderer: 10 certificates generated in output/certificates/
+DONE - Cost: $0.00
+```
+If you see `SHA-256 MISMATCH - STOPPED`, the system correctly blocked issuance. Do not continue.
+
+## 6. Test
+One command to run the full test suite:
+
+```bash
+python -m pytest tests/ -v
+```
+
+**Expected result:**
+```
+8 passed in 60-120s
+```
+
+The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using the local Ollama model and local test files in `tests/fixtures/`.
+
+## 7. A Worked Example
+**Input - Put these 2 files in `data/input/`:**
+1. `results.pdf` - Text-based PDF with this exact content:
+```
+ID: 2021001, Name: Ahmed Ali, GPA: 3.72
+ID: 2021002, Name: Sara Mohamed, GPA: 2.85
+```
+2. `results.pdf.sha256` - Text file containing the SHA-256 hash of `results.pdf`
+
+**Run:**
+```bash
+python main.py
+```
+
+**Expected Output:**
+- `data/verified.json`:
+```json
+[
+  {"id": "2021001", "name": "Ahmed Ali", "gpa": 3.72, "class": "First Class"},
+  {"id": "2021002", "name": "Sara Mohamed", "gpa": 2.85, "class": "Second Lower"}
+]
+```
+- `output/certificates/2021001_Ahmed_Ali.pdf` - Certificate says: First Class
+- `output/certificates/2021002_Sara_Mohamed.pdf` - Certificate says: Second Lower
+
+If you get `First Class` for 3.72 and `Second Lower` for 2.85, the run is CORRECT. If you get any other class, the run is BROKEN.
+
+## 8. Reproduce the Evaluation
+Run the evaluation suite:
+
+```bash
+python evaluate.py
+```
+
+**Numbers that must print on screen and must match the report:**
+```
+Total Tests: 8
+Passed: 8
+Failed: 0
+Clean PDF: PASS
+Scanned PDF Blocked: PASS
+Hash Mismatch Blocked: PASS
+Missing Hash Blocked: PASS
+Duplicate Blocked: PASS
+Wrong Classification Corrected: PASS
+Empty PDF Blocked: PASS
+Email Failure Fallback: PASS
+Latency for 10 students: 60-120 seconds
+Total Cost: $0.00
+```
+
+If any line shows `FAIL`, your environment is not matching the report.
+
+## 9. The Approval Gate
+**Location of the consequential action:** In `main.py`, function `run_pipeline()` after Verifier and before Renderer. The Renderer **cannot** run without approval.
+
+**How to activate it:**
+The gate is ON by default. You do not need to enable it.
+
+**What the human reviewer sees:**
+1. The terminal pauses and prints: `>>> WAITING FOR HUMAN APPROVAL`
+2. Open `data/verified.json` in any text editor. You will see the full list of students, GPAs, and corrected classifications.
+3. If correct, type `yes` in the terminal and press Enter. Certificates will be generated.
+4. If wrong, type `no`. The system stops and generates NOTHING. No certificate is issued.
+
+No certificate can be generated without typing `yes`.
+
+## 10. Repository Map
+- `main.py` - Main entry point, runs the 5 agents in order and contains the approval gate.
+- `config.py` - Loads `.env`, selects LLM provider, and defines paths.
+- `agents/` - Definitions of the 5 CrewAI agents and their tools.
+- `data/input/` - Place input `results.pdf` + `.sha256` file here.
+- `data/verified.json` - Human-reviewed intermediate output before rendering.
+- `output/certificates/` - Final generated PDF certificates go here.
+- `templates/template.html` - Jinja2 HTML template for the certificate design.
+- `tests/` - Pytest suite with 8 tests and fixtures.
+- `evaluate.py` - Runs the evaluation suite and prints the numbers in Section 8.
+- `.env.example` - Template for configuration, copy to `.env`.
+- `requirements.txt` - Python dependencies.
+
+## 11. Limitations
+- **No OCR:** Scanned / image-only PDFs are blocked by Gate 1 and cannot be processed.
+- **Single layout:** Parser expects `ID, Name, GPA` in one line. Different Results Office formats will fail.
+- **Arabic names:** Arabic names with extra spaces may be split incorrectly. English names work best.
+- **No digital signature:** Certificates are PDFs without cryptographic signature.
+- **Local model only:** Qwen 2.5 7B is slower and less accurate than large cloud models. Out-of-memory will occur on machines with less than 8 GB RAM.
+- **Email dependency:** If IMAP is blocked and no file is in `data/input/`, the system stops with no output.
