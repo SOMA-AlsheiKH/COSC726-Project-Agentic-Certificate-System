@@ -46,10 +46,11 @@ LLM_MODEL=qwen2.5:7b
 
 Other variables in `.env`:
 ```env
-TRUSTED_SENDER=results@neelain.edu.sd
+TRUSTED_SENDER=results@university.edu
 IMAP_SERVER=imap.gmail.com
-EMAIL_USER=your_email@gmail.com
+EMAIL_USER=project_email@gmail.com
 EMAIL_PASS=your_app_password
+
 ```
 
 If you leave `LLM_PROVIDER=ollama`, no API key is needed.
