@@ -202,9 +202,9 @@ No certificate is generated for a rejected file unless staff fixes it and resubm
 
 ## 📁 10.Repository Map
  
-- main.py -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
-- config.py -> Contains ONLY the connection / linking to Ollama qwen2.5:7b (Local LLM setup)
-- create_data.py -> Creates a sample PDF + hash file.
+- `main.py` -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
+- `config.py` -> Contains ONLY the connection / linking to Ollama qwen2.5:7b (Local LLM setup)
+- `create_data.py` -> Creates a sample PDF + hash file.
 - `test_system.py` - Automated test suite with 9 tests.
 - `evaluation.py` - Calculates `Accuracy, Precision, Recall, Hallucination` metrics.
 - `data/` - Input folder for result sheet `PDF` files.
