@@ -129,19 +129,34 @@ python evaluate.py
 
 **Numbers that must print on screen and must match the report:**
 ```
-Total Tests: 8
-Passed: 8
-Failed: 0
-Clean PDF: PASS
-Scanned PDF Blocked: PASS
-Hash Mismatch Blocked: PASS
-Missing Hash Blocked: PASS
-Duplicate Blocked: PASS
-Wrong Classification Corrected: PASS
-Empty PDF Blocked: PASS
-Email Failure Fallback: PASS
-Latency for 10 students: 60-120 seconds
-Total Cost: $0.00
+=============================================
+EVALUATION RESULTS
+=============================================
+Correctly Accepted (TP): 5
+Correctly Blocked (TN): 7
+False Accepted (FP): 0
+False Rejected (FN): 0
+Certificates: 5
+---------------------------------------------
+Blocked by Type:
+  SCANNED PDF: 1
+  MISSING HASH: 1
+  HASH MISMATCH: 1
+  DUPLICATE ID: 1
+  MISSING FIELD: 3
+---------------------------------------------
+Blocked by File:
+  test_01_scanned.pdf: 1 errors
+  test_02_no_hash.pdf: 1 errors
+  test_03_wrong_hash.pdf: 1 errors
+  test_04_duplicate_missing.pdf: 4 errors
+---------------------------------------------
+Total: 12 (5 accepted + 7 blocked)
+Accuracy: 100%
+Precision: 100%
+Recall: 100%
+Hallucination: 0%
+=============================================
 
 ```
 
