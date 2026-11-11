@@ -163,19 +163,42 @@ Hallucination: 0%
 If any line shows `FAIL`, your environment is not matching the report.
 
 ## 9. The Approval Gate
-**Location of the consequential action:** In `main.py`, function `run_pipeline()` after Verifier and before Renderer. The Renderer **cannot** run without approval.
+**The Security Gate with Human Gate**
 
-**How to activate it:**
-The gate is ON by default. You do not need to enable it.
+**Location:** In `main.py`, inside `run_pipeline()`, after reading the files and before certificate generation. The Renderer **cannot** run without passing both the Security Gate and the Human Gate.
 
-**What the human reviewer sees:**
-1. The terminal pauses and prints: `>>> WAITING FOR HUMAN APPROVAL`
-2. Open `data/verified.json` in any text editor. You will see the full list of students, GPAs, and corrected classifications.
-3. If correct, type `yes` in the terminal and press Enter. Certificates will be generated.
-4. If wrong, type `no`. The system stops and generates NOTHING. No certificate is issued.
+The system uses two gates:
 
-No certificate can be generated without typing `yes`.
+### 1. Security Gate - Automatic Check
 
+The system automatically checks every file:
+
+**Gate 1 - File Type Check:**
+If the file is a scanned PDF, it is blocked.
+
+**Gate 2 - Hash Check:**
+The `SHA-256` hash is calculated and compared with the provided hash.
+- If the hash is missing, the file is blocked.
+- If the hash does not match, the file is blocked.
+
+### 2. Human Gate - Staff Review
+
+The Security Gate does not delete rejected files. It converts them into a review task for staff.
+
+All rejected files are collected in `issues_report.pdf` with:
+- File name
+- Error type
+- Required action
+
+**What the human reviewer does:**
+1. Opens `issues_report.pdf`.
+2. Reviews each rejected file and its reason.
+3. Decides the action: fix and resubmit, or confirm rejection.
+4. Approves the valid files to proceed to certificate generation.
+
+No certificate is generated for a rejected file unless staff fixes it and resubmits it through the gate again.
+
+**In short:** The machine detects the error, the human makes the decision.
 ## 10. Repository Map
 - `main.py` - Main entry point, runs the 5 agents in order and contains the approval gate.
 - `config.py` - Loads `.env`, selects LLM provider, and defines paths.
