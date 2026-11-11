@@ -1,7 +1,10 @@
-# Automated Academic Degree Generation Using a Local Agentic AI System
+# Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation
 
 ## 1. What it does
-Manual issuance of university certificates is slow, error-prone, and has no verifiable proof that the printed certificate matches the results file sent by the Results Office. This project automates the full pipeline locally at Al-Neelain University using a multi-agent system built with CrewAI and Qwen 2.5 via Ollama. The agent checks internet, watches email / local folder, parses the results PDF, verifies the SHA-256 hash, corrects degree classification deterministically, waits for human approval, then renders final PDF certificates. No student data leaves the university machine.
+The manual process of issuing official university degree certificates is labor-intensive, time-consuming, and susceptible to human error. Furthermore, processing sensitive student records via external cloud-based AI models presents data privacy and sovereignty concerns.
+
+This project proposes a fully local, privacy-preserving agentic system designed to automate the academic degree generation workflow. Built upon the CrewAI multi-agent orchestration framework and powered locally by Qwen 2.5 via Ollama, the system functions as a virtual administrative agent. It autonomously ingests result PDFs, dynamically parses and validates student academic records, renders standardized high-resolution PDF certificates, and logs output data locally without external API dependencies.
+
 
 ## 2. Prerequisites
 - **Python:** 3.10 or higher (tested on 3.10, 3.11, 3.12)
