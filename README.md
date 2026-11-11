@@ -61,7 +61,7 @@ EMAIL_PASS=your_app_password
 
 If you leave `LLM_PROVIDER=ollama`, no API key is needed.
 
-## ▶️ 5.How To Run
+## ▶️ 5.Run
 One command only to start the system:
 
 ```bash
@@ -107,31 +107,48 @@ test_system.py::test_gate_blocks_before_crew PASSED                             
 The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using the local Ollama model and local test files in `tests/fixtures/`.
 
 ## 7. A Worked Example
-**Input - Put these 2 files in `data/input/`:**
-1. `results.pdf` - Text-based PDF with this exact content:
-```
-ID: 2021001, Name: Ahmed Ali, GPA: 3.72
-ID: 2021002, Name: Sara Mohamed, GPA: 2.85
-```
-2. `results.pdf.sha256` - Text file containing the SHA-256 hash of `results.pdf`
 
-**Run:**
+**Step 1 - Generate the inputs:**
+
+```bash
+python create_data.py
+```
+
+This creates 4 test files in `data/`:
+1. `test_01_scanned.pdf` - Scanned / image-only file, with a correct hash
+2. `test_02_no_hash.pdf` - Valid file, but with no hash file
+3. `test_03_wrong_hash.pdf` - Valid file, but with an intentionally wrong hash
+4. `test_04_duplicate_missing.pdf` - File with 10 students, including:
+   - One duplicate ID: `2021004`, once as Ali Yousif and once as Mohamed Osman
+   - Three students with missing values: `2021006` with no GPA, `2021007` with no name, and Huda Ibrahim with no student ID
+   - Five valid students: `2021001`, `2021002`, `2021003`, `2021005`, and `2021008`
+
+**Step 2 - Run the system:**
+
 ```bash
 python main.py
 ```
 
-**Expected Output:**
-- `data/verified.json`:
+**Expected Output - 5 files:**
+
+1. `data/parsed.json` - Data extracted from the PDFs before correction
+2. `data/verified.json` - Data after correcting the class from the GPA, for example:
 ```json
 [
-  {"id": "2021001", "name": "Ahmed Ali", "gpa": 3.72, "class": "First Class"},
-  {"id": "2021002", "name": "Sara Mohamed", "gpa": 2.85, "class": "Second Lower"}
+  {"id": "2021001", "name": "Ahmed Ali", "gpa": 3.72, "class": "First Class"}
 ]
 ```
-- `output/certificates/2021001_Ahmed_Ali.pdf` - Certificate says: First Class
-- `output/certificates/2021002_Sara_Mohamed.pdf` - Certificate says: Second Lower
+3. `data/issued.json` - Record of certificates actually issued, 5 certificates only
+4. `output/issues_report.pdf` - Report of rejected files, with 7 blocked cases
+5. `output/certificates/` - 5 certificates only, for the valid students from `test_04`
 
-If you get `First Class` for 3.72 and `Second Lower` for 2.85, the run is CORRECT. If you get any other class, the run is BROKEN.
+**How to judge the run:**
+
+| Result | Verdict |
+| --- | --- |
+| Accepted: 5 certificates, Blocked: 7 cases, and no certificate from `test_01`, `test_02`, or `test_03` | CORRECT run |
+| Any certificate issued for a scanned, no-hash, or wrong-hash file, or any certificate issued for a duplicate / incomplete student | BROKEN run |
+
 
 ## 8. Reproduce the Evaluation
 Run the evaluation suite:
