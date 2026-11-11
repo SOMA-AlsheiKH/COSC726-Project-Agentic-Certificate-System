@@ -45,6 +45,8 @@ Open `.env` and check these two variables. They are the ONLY two variables that 
 ```env
 LLM_PROVIDER=ollama
 LLM_MODEL=qwen2.5:7b
+OPENAI_API_KEY = "ollama"
+## A dummy key is set because the `CrewAI` framework requires the `OPENAI_API_KEY` environment variable to initialize, even when using a fully local model.
 ```
 
 Other variables in `.env`:
