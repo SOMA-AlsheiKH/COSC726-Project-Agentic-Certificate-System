@@ -139,6 +139,7 @@ Empty PDF Blocked: PASS
 Email Failure Fallback: PASS
 Latency for 10 students: 60-120 seconds
 Total Cost: $0.00
+
 ```
 
 If any line shows `FAIL`, your environment is not matching the report.
