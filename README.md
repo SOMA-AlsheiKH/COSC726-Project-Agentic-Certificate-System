@@ -83,12 +83,25 @@ If you see `SHA-256 MISMATCH - STOPPED`, the system correctly blocked issuance. 
 One command to run the full test suite:
 
 ```bash
-python -m pytest tests/ -v
+pytest test_system.py -v
 ```
 
 **Expected result:**
 ```
-8 passed in 60-120s
+================================================= test session starts =================================================
+collected 9 items
+
+test_system.py::test_T_E1_clean_pdf_10_from_create_data PASSED                                                   [ 11%]
+test_system.py::test_T_E2_scanned_pdf_blocked PASSED                                                             [ 22%]
+test_system.py::test_T_E3_hash_mismatch_blocked PASSED                                                           [ 33%]
+test_system.py::test_T_E4_missing_hash_blocked PASSED                                                            [ 44%]
+test_system.py::test_T_E5_duplicate_run_blocked PASSED                                                           [ 55%]
+test_system.py::test_T_E6_gate_correction_from_create_data PASSED                                                [ 66%]
+test_system.py::test_T_E7_empty_pdf_blocked_no_hallucination PASSED                                              [ 77%]
+test_system.py::test_T_E8_certificates_saved_to_output PASSED                                                    [ 88%]
+test_system.py::test_gate_blocks_before_crew PASSED                                                              [100%]
+
+================================================== 9 passed in 0.03s ==================================================
 ```
 
 The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using the local Ollama model and local test files in `tests/fixtures/`.
