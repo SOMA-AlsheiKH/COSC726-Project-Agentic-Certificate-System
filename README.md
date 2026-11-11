@@ -1,4 +1,4 @@
-## Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation
+### Privacy-Preserving Local Agentic AI System for University Degree Certificate Generation
 
 ## 1. What it does
 The manual process of issuing official university degree certificates is labor-intensive, time-consuming, and susceptible to human error. Furthermore, processing sensitive student records via external cloud-based AI models presents data privacy and sovereignty concerns.
