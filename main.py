@@ -1,8 +1,6 @@
 # ============================================================
 # main.py
 # Certificate Generation System - 5 Agents - CrewAI
-# Flow: Internet -> Email -> Gate1 Digital -> Gate2 Hash
-#       -> JSON -> Self-Correction -> Certificate in output
 # ============================================================
 
 import os
