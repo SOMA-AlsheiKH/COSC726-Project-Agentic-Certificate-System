@@ -200,28 +200,6 @@ No certificate is generated for a rejected file unless staff fixes it and resubm
 
 **In short:** The machine detects the error, the human makes the decision.
 
-## 10. Repository Map
-
-- `main.py` - Main entry point, runs the 5 agents and 7 tasks, contains the security gate and certificate generation.
-- `config.py` - Configures the local model `qwen2.5:7b` via `Ollama`.
-- `create_data.py` - Creates test data, 12 cases.
-- `test_system.py` - Automated test suite with 9 tests.
-- `evaluation.py` - Calculates `Accuracy, Precision, Recall, Hallucination` metrics.
-- `data/` - Input folder for result sheet `PDF` files.
-- `output/` - Final certificates and `issues_report.pdf` are saved here.
-- `template.html` - Certificate template.
-- `requirements.txt` - Python dependencies.
-
-## 11. Limitations
-
-- **No OCR:** Scanned PDFs are blocked by Gate 1 and cannot be processed.
-- **Single layout:** Parser expects `ID, Name, GPA` in one line.
-- **Classification correction:** Degree classification is corrected from GPA only, not from any other source.
-- **No digital signature:** Certificates are PDFs without cryptographic signature.
-- **Local model only:** `Qwen 2.5 7B` is slower and less accurate than large cloud models. It requires at least 8 GB of RAM.
-- **Local storage only:** The system generates certificates and saves them in the `output/` folder only. It does not send them by email.
-
-
 ## 📁 10.Repository Map
  
 - main.py -> Contains the 5 Agents and 7 Tasks, Tools and Functions (The Gates)
