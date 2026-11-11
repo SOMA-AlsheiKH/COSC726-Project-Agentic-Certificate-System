@@ -70,6 +70,31 @@ python main.py
 
 **What you should see on success:**
 ```
+## 5. التشغيل
+
+أمر واحد فقط لتشغيل النظام:
+
+python main.py
+
+ما الذي ستراه عند النجاح:
+
+Crew: crew
+├── Task: Network Checker
+│   └── Used Check Internet
+├── Task: Email Watcher
+│   └── Used Fetch and Watch Email
+├── Task: Gatekeeper Parser
+│   └── Used Check Digital Gate 1
+├── Task: Gatekeeper Parser
+│   └── Used Check Hash Gate 2
+├── Task: Verifier and Corrector
+│   └── Used Parse Result Sheet to JSON
+├── Task: Verifier and Corrector
+│   └── Used Verify Self Correction
+└── Task: Certificate Renderer
+    └── Used Render Certified Output
+
+DONE - Cost: $0.00
 [1/5] Network Checker: Internet OK
 [2/5] Email Watcher: Found results.pdf in data/input/
 [3/5] Gatekeeper: PDF is text-based, SHA-256 MATCHED
