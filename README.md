@@ -3,8 +3,7 @@
 ## 1. What it does
 The manual process of issuing official university degree certificates is labor-intensive, time-consuming, and susceptible to human error. Furthermore, processing sensitive student records via external cloud-based AI models presents data privacy and sovereignty concerns.
 
-This project proposes a fully local, privacy-preserving agentic system designed to automate the academic degree generation workflow. Built upon the CrewAI multi-agent orchestration framework and powered locally by Qwen 2.5 via Ollama, the system functions as a virtual administrative agent. It autonomously ingests result PDFs, dynamically parses and validates student academic records, renders standardized high-resolution PDF certificates, and logs output data locally without external API dependencies.
-
+This project proposes a fully local, privacy-preserving agentic system designed to automate the academic degree generation workflow. Built upon the CrewAI multi-agent orchestration framework and powered locally by Qwen 2.5 via Ollama, the system functions as a virtual administrative agent. It autonomously ingests result PDFs, dynamically parses and validates student academic records, renders standardized PDF certificates from `template.html`, and logs output data locally. The AI model itself runs locally with no cloud API, but the Email Watcher can still fetch from Gmail IMAP when internet is available.
 
 ## 2. Prerequisites
 - **Python:** 3.10 or higher (tested on 3.10, 3.11, 3.12)
@@ -109,6 +108,9 @@ test_system.py::test_gate_blocks_before_crew PASSED                             
 
 ================================================== 9 passed in 0.05s ==================================================
 ```
+
+**The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using local test files in `data/`.**
+---
 
 ## 7. A Worked Example
 
