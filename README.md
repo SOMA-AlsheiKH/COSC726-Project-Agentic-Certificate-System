@@ -108,7 +108,7 @@ test_system.py::test_gate_blocks_before_crew PASSED                             
 ================================================== 9 passed in 0.05s ==================================================
 ```
 
-**The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using local test files in `data/`.**
+The tests do **NOT** require API keys and do **NOT** require internet. They run fully offline using local test files in `data/`.
 ---
 
 ## 7. A Worked Example
