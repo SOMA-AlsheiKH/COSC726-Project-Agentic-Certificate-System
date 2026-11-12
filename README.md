@@ -63,7 +63,7 @@ python main.py
 
 ```
 What you will see on success:
-
+# عند تنفيذ الكود تظهر كلمات باللغه العربية البسيطه توضح مجريات التنفيذ
 === 5 Agents شغالين ===
 Crew: crew
 ├── Task: Network Checker - Used Check Internet
