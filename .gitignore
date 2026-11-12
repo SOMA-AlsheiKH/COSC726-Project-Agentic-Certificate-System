@@ -1,0 +1,12 @@
+# Environment - NEVER upload real secrets
+.env
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Output - generated locally
+output/
+data/*.json
+issued_ids.json
