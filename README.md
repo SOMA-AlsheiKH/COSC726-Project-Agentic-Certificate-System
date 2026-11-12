@@ -16,8 +16,8 @@ This project proposes a fully local, privacy-preserving agentic system designed 
 Copy and paste these commands in order in a new clean folder:
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/degree-generation-agent.git
-cd degree-generation-agent
+git clone https://github.com/SOMA-Alsheikh/COSC726-Project-Agentic-Certificate-System.git
+cd COSC726-Project-Agentic-Certificate-System
 python -m venv venv
 # Windows:
 venv\Scripts\activate
@@ -26,9 +26,11 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ollama pull qwen2.5:7b
 ollama serve
-```
 
-Keep `ollama serve` running in a separate terminal.
+```
+Keep `ollama serve` running in a separate terminal. Do not close it.
+Open a new terminal window to run `python main.py`.
+
 
 ## 4. Configure
 Copy the example env file:
@@ -45,7 +47,6 @@ Open `.env` and check these two variables. They are the ONLY two variables that 
 LLM_PROVIDER=ollama
 LLM_MODEL=qwen2.5:7b
 OPENAI_API_KEY = "ollama"
-# A dummy key is set because the `CrewAI` framework requires the `OPENAI_API_KEY` environment variable to initialize, even when using a fully local model.
 ```
 **A dummy key is set because the `CrewAI` framework requires the `OPENAI_API_KEY` environment variable to initialize, even when using a fully local model.**
 
