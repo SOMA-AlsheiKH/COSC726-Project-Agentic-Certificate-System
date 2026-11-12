@@ -61,9 +61,8 @@ python main.py
 
 **What you should see on success:**
 
+*During code execution, simple Arabic words appear to describe the execution flow.*
 ```
-What you will see on success:
-# عند تنفيذ الكود تظهر كلمات باللغه العربية البسيطه توضح مجريات التنفيذ
 === 5 Agents شغالين ===
 Crew: crew
 ├── Task: Network Checker - Used Check Internet
@@ -77,7 +76,6 @@ Crew: crew
 Then the Skip window appears to show the error report.
 Then at the end you will see:
 === تم - وقف في output ===
-
 ```
 **Important note:
 If the hash of one file does not match, the system skips that file only and continues with the other files.
